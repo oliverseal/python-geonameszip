@@ -13,7 +13,7 @@ class CustomInstallCommand(install):
 
 setup(
     name='geonameszip',
-    version='0.1.0',
+    version='0.1.1',
     description='Quick and dirty script/api for syncing postal codes / zip codes with a local sqlite3 database.',
     long_description=(open('README.md').read() + '\n\n' +
                       open('LICENSE.md').read()),
@@ -22,7 +22,7 @@ setup(
     author='Oliver Wilkerson',
     author_email='oliver.wilkerson@gmail.com',
     include_package_data=True,
-    scripts=['update.py','terminal.py','README.md','LICENSE.md'],
+    scripts=['update_geonameszip'],
     packages=['geonameszip'],
     package_dir={'geonameszip': './geonameszip'},
     classifiers=[
