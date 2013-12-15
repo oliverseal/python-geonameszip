@@ -4,4 +4,6 @@
 
 *.txt
 *.sqlite3
+dist
+*.egg-info
 
