@@ -31,6 +31,7 @@ _Licensees may copy, distribute, display and perform the work and make derivativ
 
 ## Summary
 _This is a human-readable summary of (and not a substitute for) the [license](http://creativecommons.org/licenses/by/3.0/)._
+
 You are free to:
 - *Share* — copy and redistribute the material in any medium or format
 - *Adapt* — remix, transform, and build upon the material
