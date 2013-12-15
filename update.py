@@ -1,18 +1,20 @@
 #!/usr/bin/env python
-import os, sys, urllib2, terminal, math, time
+import os, sys, urllib2, terminal, math, time, zipfile
+import geonameszip
 
 DOWNLOAD_URL = 'http://download.geonames.org/export/zip/allCountries.zip'
 #DOWNLOAD_URL = 'http://www.google.com/'
 current_directory = os.path.dirname(os.path.realpath(__file__))
+EXTRACTED_TEXT_FILE = os.path.join(current_directory, 'allCountries.txt')
 
 do_import = raw_input('This will download the latest zip file from geonames and import it into the default zipcode database. Please do not abuse this since geonames offers this data _for free_. Continue? Y/n')
 
 if do_import.lower() == 'y':
-  file = os.path.join(os.path.join(current_directory, 'allCountries.zip'))
+  all_countries_file = os.path.join(os.path.join(current_directory, 'allCountries.zip'))
 
   now = time.time()
   try:
-    created_time = os.path.getctime(file)
+    created_time = os.path.getctime(all_countries_file)
   except OSError:
     print('Creating file...')
     created_time = now - 90000
@@ -31,7 +33,7 @@ if do_import.lower() == 'y':
       sys.stdout.write('Downloaded:[{0} {1}{2}]\r'.format(progress_bar, complete_string, progress_gap))
       sys.stdout.flush()
 
-    with open(file, 'wb') as fh:
+    with open(all_countries_file, 'wb') as fh:
       response = urllib2.urlopen(DOWNLOAD_URL)
       size_header = response.info().getheader('Content-Length')
       if size_header is not None:
@@ -55,5 +57,7 @@ if do_import.lower() == 'y':
   else:
     print('Previously downloaded file is less than 24 hours old -- using it.')
 
+  zip = zipfile.ZipFile(all_countries_file, 'r')
+  zip.extractall(current_directory)
 
-
+  geonameszip.import_from_file(EXTRACTED_TEXT_FILE)
