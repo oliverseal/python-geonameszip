@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 Creative Commons Deed
 =====================
-_Licensees may copy, distribute, display and perform the work and make derivative works based on it only if they give the author or licensor the credits in the manner specified by [](http://creativecommons.org/licenses/by/3.0/)._
+_Licensees may copy, distribute, display and perform the work and make derivative works based on it only if they give the author or licensor the credits in the manner specified by [http://creativecommons.org/licenses/by/3.0/](http://creativecommons.org/licenses/by/3.0/)._
 
 ## Summary
 _This is a human-readable summary of (and not a substitute for) the [license](http://creativecommons.org/licenses/by/3.0/)._
