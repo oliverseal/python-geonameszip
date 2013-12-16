@@ -1,15 +1,15 @@
 from setuptools import setup
 from setuptools.command.install import install
 
-class CustomInstallCommand(install):
+class InstallAndUpdateCommand(install):
     """Customized setuptools install command - prints a friendly greeting."""
     def run(self):
         install.run(self)
 
         # okay, we're installed
-        from subprocess import call
-        call([sys.executable, 'update.py'],
-             cwd=os.path.join(dir, 'packagename'))
+        from geonameszip import update
+        update.download()
+        update.import_downloaded_file()
 
 setup(
     name='geonameszip',
@@ -22,9 +22,10 @@ setup(
     author='Oliver Wilkerson',
     author_email='oliver.wilkerson@gmail.com',
     include_package_data=True,
-    scripts=['update_geonameszip'],
+    scripts=['update_geonameszip.py'],
     packages=['geonameszip'],
     package_dir={'geonameszip': './geonameszip'},
+    cmdclass={'install': InstallAndUpdateCommand },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
