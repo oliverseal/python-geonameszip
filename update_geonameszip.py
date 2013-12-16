@@ -23,6 +23,6 @@ elif force is False:
   print('Previously downloaded file is less than 24 hours old -- using it.')
 
 if do_import.lower() == 'y':
-  update.download(force)
+  update.download()
 
 update.import_downloaded_file()
