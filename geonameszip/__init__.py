@@ -1,8 +1,25 @@
 # -*- coding: utf-8 -*-
 import csv, codecs, sqlite3, os, sys
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-DEFAULT_SQLITE3_FILE = os.path.join(current_directory, 'zipcodes.sqlite3')
+if os.name == 'nt':
+  import ctypes
+  from ctypes import wintypes, windll
+
+  CSIDL_COMMON_APPDATA = 35
+
+  _SHGetFolderPath = windll.shell32.SHGetFolderPathW
+  _SHGetFolderPath.argtypes = [wintypes.HWND, ctypes.c_int,
+                               wintypes.HANDLE, wintypes.DWORD, 
+                               wintypes.LPCWSTR]
+  path_buf = wintypes.create_unicode_buffer(wintypes.MAX_PATH)
+  BASE_DIR = _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
+else:
+  BASE_DIR = '/var/lib/geonameszip/'
+
+if not os.path.exists(BASE_DIR):
+  os.makedirs(BASE_DIR)
+
+DEFAULT_SQLITE3_FILE = os.path.join(BASE_DIR, 'zipcodes.sqlite3')
 RESULT_KEYS = ['postal_code', 'country', 'city', 'state', 'state_abbreviation', 'county', 'lat', 'lon']
 
 def import_from_file(source_txt):

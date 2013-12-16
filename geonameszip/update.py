@@ -3,9 +3,27 @@ import os, sys, urllib2, math, time, zipfile
 import geonameszip
 
 DOWNLOAD_URL = 'http://download.geonames.org/export/zip/allCountries.zip'
-current_directory = os.path.dirname(os.path.realpath(__file__))
-DOWNLOADED_ZIP_FILE = os.path.join(current_directory, 'allCountries.zip')
-EXTRACTED_TEXT_FILE = os.path.join(current_directory, 'allCountries.txt')
+
+if os.name == 'nt':
+  import ctypes
+  from ctypes import wintypes, windll
+
+  CSIDL_COMMON_APPDATA = 35
+
+  _SHGetFolderPath = windll.shell32.SHGetFolderPathW
+  _SHGetFolderPath.argtypes = [wintypes.HWND, ctypes.c_int,
+                               wintypes.HANDLE, wintypes.DWORD, 
+                               wintypes.LPCWSTR]
+  path_buf = wintypes.create_unicode_buffer(wintypes.MAX_PATH)
+  BASE_DIR = _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
+else:
+  BASE_DIR = '/var/lib/geonameszip/'
+
+if not os.path.exists(BASE_DIR):
+  os.makedirs(BASE_DIR)
+
+DOWNLOADED_ZIP_FILE = os.path.join(BASE_DIR, 'allCountries.zip')
+EXTRACTED_TEXT_FILE = os.path.join(BASE_DIR, 'allCountries.txt')
 
 def download():
   def on_data_recieved(bytes_downloaded, chunk_size, total_size):
@@ -52,8 +70,9 @@ def import_downloaded_file():
   # if the text file is old, re-extract over it.
   if now - created_time > 86400:
     zip = zipfile.ZipFile(DOWNLOADED_ZIP_FILE, 'r')
-    zip.extractall(current_directory)
+    zip.extractall(BASE_DIR)
 
+  print('Updating... please wait.')
   geonameszip.import_from_file(EXTRACTED_TEXT_FILE)
 
 
