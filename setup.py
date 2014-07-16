@@ -5,7 +5,7 @@ class InstallAndUpdateCommand(install):
     """Customized setuptools install command - prints a friendly greeting."""
     def run(self):
         install.run(self)
-        
+
         try:
           # okay, we're installed
           from geonameszip import update
@@ -16,7 +16,7 @@ class InstallAndUpdateCommand(install):
 
 setup(
     name='geonameszip',
-    version='0.1.3',
+    version='0.1.4',
     description='Quick and dirty script/api for syncing postal codes / zip codes with a local sqlite3 database.',
     long_description=(open('README.md').read() + '\n\n' +
                       open('LICENSE.md').read()),

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-import os, sys, urllib2, math, time, zipfile
+import os, sys, time
 from geonameszip import update
+
+DOWNLOAD_URL = 'http://download.geonames.org/export/zip/allCountries.zip'
 
 if len(sys.argv) > 1 and sys.argv[1] == '-f':
   do_import = 'y'

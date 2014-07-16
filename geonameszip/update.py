@@ -1,6 +1,10 @@
 #!/usr/bin/env python
-import os, sys, urllib2, math, time, zipfile
+import os, sys, math, time, zipfile
 import geonameszip
+try:
+    import urllib2 as urllib
+except ImportError:
+    import urllib
 
 DOWNLOAD_URL = 'http://download.geonames.org/export/zip/allCountries.zip'
 
@@ -12,7 +16,7 @@ if os.name == 'nt':
 
   _SHGetFolderPath = windll.shell32.SHGetFolderPathW
   _SHGetFolderPath.argtypes = [wintypes.HWND, ctypes.c_int,
-                               wintypes.HANDLE, wintypes.DWORD, 
+                               wintypes.HANDLE, wintypes.DWORD,
                                wintypes.LPCWSTR]
   path_buf = wintypes.create_unicode_buffer(wintypes.MAX_PATH)
   BASE_DIR = _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
@@ -40,7 +44,7 @@ def download():
 
   with open(DOWNLOADED_ZIP_FILE, 'wb') as fh:
     print('Downloading {0}'.format(DOWNLOAD_URL))
-    response = urllib2.urlopen(DOWNLOAD_URL)
+    response = urllib.urlopen(DOWNLOAD_URL)
     size_header = response.info().getheader('Content-Length')
     if size_header is not None:
       size = int(size_header.strip())
@@ -82,8 +86,8 @@ import shlex
 import struct
 import platform
 import subprocess
- 
- 
+
+
 def get_terminal_size():
     """ getTerminalSize()
      - get width and height of console
@@ -101,11 +105,11 @@ def get_terminal_size():
     if current_os in ['Linux', 'Darwin'] or current_os.startswith('CYGWIN'):
         tuple_xy = _get_terminal_size_linux()
     if tuple_xy is None:
-        print "default"
+        print("default")
         tuple_xy = (80, 25)      # default value
     return tuple_xy
- 
- 
+
+
 def _get_terminal_size_windows():
     try:
         from ctypes import windll, create_string_buffer
@@ -124,7 +128,7 @@ def _get_terminal_size_windows():
             return sizex, sizey
     except:
         pass
- 
+
 
 def _get_terminal_size_tput():
     # get terminal width
@@ -135,8 +139,8 @@ def _get_terminal_size_tput():
         return (cols, rows)
     except:
         pass
- 
- 
+
+
 def _get_terminal_size_linux():
     def ioctl_GWINSZ(fd):
         try:
