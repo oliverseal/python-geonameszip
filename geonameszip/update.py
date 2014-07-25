@@ -4,7 +4,7 @@ import geonameszip
 try:
     import urllib2 as urllib
 except ImportError:
-    import urllib
+    from urllib import request as urllib
 
 DOWNLOAD_URL = 'http://download.geonames.org/export/zip/allCountries.zip'
 
@@ -45,7 +45,11 @@ def download():
   with open(DOWNLOADED_ZIP_FILE, 'wb') as fh:
     print('Downloading {0}'.format(DOWNLOAD_URL))
     response = urllib.urlopen(DOWNLOAD_URL)
-    size_header = response.info().getheader('Content-Length')
+    try:
+      size_header = response.info().getheader('Content-Length')
+    except:
+      size_header = response.info()['Content-Length']
+
     if size_header is not None:
       size = int(size_header.strip())
     else:
@@ -72,9 +76,17 @@ def import_downloaded_file():
     created_time = now - 90000
 
   # if the text file is old, re-extract over it.
-  if now - created_time > 86400:
-    zip = zipfile.ZipFile(DOWNLOADED_ZIP_FILE, 'r')
-    zip.extractall(BASE_DIR)
+  print(DOWNLOADED_ZIP_FILE)
+  try:
+    if now - created_time > 86400:
+      zip = zipfile.ZipFile(DOWNLOADED_ZIP_FILE, 'r')
+      zip.extractall(BASE_DIR)
+  except:
+    # re-download file.
+    print('Invalid zip. Re-downloading.')
+    download()
+    import_downloaded_file()
+    return
 
   print('Updating... please wait.')
   geonameszip.import_from_file(EXTRACTED_TEXT_FILE)

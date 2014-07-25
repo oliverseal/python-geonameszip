@@ -36,9 +36,15 @@ def import_from_file(source_txt):
   create_table(conn=conn)
   conn.commit()
 
-  try:
-    with open(source_txt, 'rb') as source:
-      source_rows = UnicodeReader(source, delimiter='\t', quotechar='\"')
+  #try:
+  if True:
+      try:
+        source = open(source_txt, 'rb')
+        source_rows = UnicodeReader(source, delimiter='\t', quotechar='\"')
+      except:
+        # no need to recode in python 3
+        source = open(source_txt, 'r')
+        source_rows = csv.reader(source, delimiter='\t', quotechar='\"')
       rows_updated = 0
       rows_failed = 0
       for row in source_rows:
@@ -62,11 +68,11 @@ def import_from_file(source_txt):
         sys.stdout.flush()
       print('')
 
-  except IOError:
-    print('Unable to open file "{0}".'.format(source_txt))
-  except Exception as exc:
-    print('Error updating.')
-    print(exc)
+  #except IOError:
+  #  print('Unable to open file "{0}".'.format(source_txt))
+  #except Exception as exc:
+  #  print('Error updating.')
+  #  print(exc)
   conn.commit()
   conn.close()
 
