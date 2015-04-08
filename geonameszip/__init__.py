@@ -12,7 +12,8 @@ if os.name == 'nt':
                                wintypes.HANDLE, wintypes.DWORD,
                                wintypes.LPCWSTR]
   path_buf = wintypes.create_unicode_buffer(wintypes.MAX_PATH)
-  BASE_DIR = _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
+  _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
+  BASE_DIR = path_buf.value
 else:
   BASE_DIR = '/var/lib/geonameszip/'
 
