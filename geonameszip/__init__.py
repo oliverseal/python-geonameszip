@@ -40,12 +40,12 @@ def import_from_file(source_txt):
   #try:
   if True:
       try:
+        # no need to recode in python 3
+        source = open(source_txt, 'r', encoding='utf8')
+        source_rows = csv.reader(source, delimiter='\t', quotechar='\"')
+      except:
         source = open(source_txt, 'rb')
         source_rows = UnicodeReader(source, delimiter='\t', quotechar='\"')
-      except:
-        # no need to recode in python 3
-        source = open(source_txt, 'r')
-        source_rows = csv.reader(source, delimiter='\t', quotechar='\"')
       rows_updated = 0
       rows_failed = 0
       for row in source_rows:

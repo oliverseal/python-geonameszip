@@ -16,7 +16,7 @@ class InstallAndUpdateCommand(install):
 
 setup(
     name='geonameszip',
-    version='0.2.4',
+    version='0.3.0',
     description='Quick and dirty script/api for syncing postal codes / zip codes with a local sqlite3 database.',
     long_description=(open('README.md').read() + '\n\n' +
                       open('LICENSE.md').read()),
