@@ -18,7 +18,7 @@ if os.name == 'nt':
   _SHGetFolderPath.argtypes = [wintypes.HWND, ctypes.c_int,
                                wintypes.HANDLE, wintypes.DWORD,
                                wintypes.LPCWSTR]
-  path_buf = wintypes.create_unicode_buffer(wintypes.MAX_PATH)
+  path_buf = ctypes.create_unicode_buffer(wintypes.MAX_PATH)
   _SHGetFolderPath(0, CSIDL_COMMON_APPDATA, 0, 0, path_buf)
   BASE_DIR = path_buf.value
 else:
